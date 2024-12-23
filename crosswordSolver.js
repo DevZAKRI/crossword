@@ -17,7 +17,7 @@ function crosswordSolver(emptyPuzzle, words) {
         let placed = false;
         for (let row = 0; row < puzzle.length; row++) {
             for (let col = 0; col < puzzle[row].length; col++) {
-                if (canPlaceWord(puzzle, word, row, col, 'horizontal', start)) {
+                if (canPlaceWord(puzzle, word, row, col, 'horizontal', start) && culculength(col, row, puzzle) === word.length) {
                     placed = placeWord(puzzle, word, row, col, 'horizontal');
                     console.log(puzzle)
                     // placed = true;
@@ -107,6 +107,18 @@ function canPlaceWord(puzzle, word, row, col, direction, start) {
 
 }
 
+function culculength(col,row, puzzle) {
+    let c =0
+    for (let clum = col;clum < puzzle[row].length; clum++) {
+       if (puzzle[row][clum]!='.'){
+        c++
+       }else{
+        break
+       }
+        
+    }
+    return c
+}
 
 function getStartPosition(puzzle) {
     let start = []
