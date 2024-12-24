@@ -1,29 +1,34 @@
 
 
 function crosswordSolver(emptyPuzzle, words) {
-    if (!validPuzzle(emptyPuzzle, words)) {
-        
-        return console.log("Error")
+    if (!validPuzzle(emptyPuzzle, words) || !validWords(words)) {
+        return console.log("Error");
     }
-    if (!validWords(words)) {
-        return console.log("Error")
-    }
+
     let lines = emptyPuzzle.split('\n');
-    let puzzle = lines.map((line) => line.split(''));
-     console.log(puzzle)
+    let puzzle = lines.map(line => line.split(''));
     let start = getStartPosition(puzzle);
-    console.log(start)
 
-    if (start.length != words.length) {
-        return console.log("Error")
+    if (start.length !== words.length) {
+        return console.log("Error");
     }
 
-    let solved = initSolvePuzzle(puzzle, words, start)
-    if (!solved) {
-        return console.log("Error")
+    let solutions = [];
+    initSolvePuzzle(puzzle, words, start, solutions);
+
+    if (solutions.length === 0) {
+        return console.log("Error");
+    } else if (solutions.length > 1) {
+        return console.log("Error");
+    } else {
+        return console.log(solutions[0].map(row => row.join('')).join('\n'));
     }
-    return console.log(solved.map(row => row.join('')).join('\n'))
 }
+
+function initSolvePuzzle(puzzle, words, positions, solutions) {
+    solvePuzzle(puzzle.map(row => [...row]), positions, words, 0, new Set(), solutions);
+}
+
 
 const solvePuzzle = (puzzle, positions, words, index, usedWords, solutions) => {
 
@@ -67,12 +72,6 @@ function getStartPosition(puzzle) {
         }
     }
     return start;
-}
-
-function initSolvePuzzle(puzzle, words, positions) {
-    const solvedPuzzle = puzzle.map(row => [...row]);
-    const solutions = []
-    return solvePuzzle(solvedPuzzle, positions, words, 0, new Set(), solutions);
 }
 
 function validPuzzle(puzzle, words) {
@@ -190,7 +189,7 @@ function culculength(col, row, puzzle, word, direction) {
 }
 
 
-const puzzle = '2000\n0...\n0...\n0...'
-const words = ['abba', 'assa']
+// const puzzle = '2001\n0..0\n1000\n0..0'
+// const words = ['casa', 'alan', 'ciao', 'anta']
 
-crosswordSolver(puzzle, words)
+// crosswordSolver(puzzle, words)
